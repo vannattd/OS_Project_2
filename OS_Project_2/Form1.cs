@@ -14,6 +14,9 @@ namespace OS_Project_2
     {
         Timer t = new Timer();
         Process[] processes = new Process[30];
+        Process[] firstFitProcesses = new Process[30];
+        Process[] bestFitProcesses = new Process[30];
+        Process[] worstFitProcesses = new Process[30];
         int time = 0;
         Random rnd = new Random();
         public Form1()
@@ -48,7 +51,7 @@ namespace OS_Project_2
             label9.Text = next.size.ToString();
             label10.Text = next.size.ToString();
 
-
+            p.setStartTime(time);
             //Allocate a process
             FirstFit(p);
             BestFit(p);
@@ -61,17 +64,23 @@ namespace OS_Project_2
 
         private void FirstFit(Process p)
         {
-            lbFirstFit.Items.Add("First Fit Item");
+            lbFirstFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
+            firstFitProcesses[0] = p;
+            
         }
 
         private void BestFit(Process p)
         {
-            lbBestFit.Items.Add("Best Fit Item");
+            lbBestFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
+            bestFitProcesses.Append(p);
+
         }
 
         private void WorstFit(Process p)
         {
-            lbWorstFit.Items.Add("Worst Fit Item");
+            lbWorstFit.Items.Add("Process: "+p.name + "  Size: " +p.size);
+            worstFitProcesses.Append(p);
+
         }
 
 
@@ -83,7 +92,7 @@ namespace OS_Project_2
     {
         public readonly int size;
         public readonly int name;
-        private int startTime;
+        public int startTime;
 
         public Process(int size, int name)
         {
