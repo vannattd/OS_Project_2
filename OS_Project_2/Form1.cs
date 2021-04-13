@@ -10,31 +10,25 @@ using System.Windows.Forms;
 
 namespace OS_Project_2
 {
-
-
-    public class Process
-    {
-        private readonly int size;
-        private readonly int name;
-        private readonly int startTime;
-
-        public Process(int size, int name, int startTime)
-        {
-            this.size = size;
-            this.name = name;
-            this.startTime = startTime;
-        }
-    }
 //Interface Process
 // size, name, start
     public partial class Form1 : Form
     {
         Timer t = new Timer();
+        Process[] processes = new Process[30];
         int time = 0;
-        int processNum = 1;
+        Random rnd = new Random();
         public Form1()
         {
             InitializeComponent();
+
+            for (int i = 0; i <= 25; i++)
+            {
+                int processSize = rnd.Next(1, 11);
+                Console.WriteLine(processSize.ToString());
+
+                processes[i] = new Process(processSize, i);
+            }
 
             //timer interval
             t.Interval = 1000;  //in milliseconds
@@ -48,11 +42,14 @@ namespace OS_Project_2
 
         private void t_Tick(object sender, EventArgs e)
         {
-            Random rnd = new Random();
-            int processSize = rnd.Next(1, 11);
 
-            Process p = new Process(processSize, processNum, time);
             //Generate a process 
+            Process p = processes[time];
+            Process next = processes[time + 1];
+
+            label8.Text = next.size.ToString();
+            label9.Text = next.size.ToString();
+            label10.Text = next.size.ToString();
 
 
             //Allocate a process
@@ -60,7 +57,6 @@ namespace OS_Project_2
             BestFit(p);
             WorstFit(p);
             time++;
-            processNum++;
             label12.Text = time.ToString();
 
         }
@@ -84,5 +80,23 @@ namespace OS_Project_2
 
 
 
+    }
+
+    public class Process
+    {
+        public readonly int size;
+        public readonly int name;
+        private int startTime;
+
+        public Process(int size, int name)
+        {
+            this.size = size;
+            this.name = name;
+        }
+
+        public void setStartTime(int x)
+        {
+            this.startTime = x;
+        }
     }
 }
