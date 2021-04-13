@@ -10,8 +10,6 @@ using System.Windows.Forms;
 
 namespace OS_Project_2
 {
-//Interface Process
-// size, name, start
     public partial class Form1 : Form
     {
         Timer t = new Timer();
@@ -25,7 +23,6 @@ namespace OS_Project_2
             for (int i = 0; i <= 25; i++)
             {
                 int processSize = rnd.Next(1, 11);
-                Console.WriteLine(processSize.ToString());
 
                 processes[i] = new Process(processSize, i);
             }
