@@ -61,17 +61,17 @@ namespace OS_Project_2
 
         private void FirstFit(Process p)
         {
-
+            lbFirstFit.Items.Add("First Fit Item");
         }
 
         private void BestFit(Process p)
         {
-
+            lbBestFit.Items.Add("Best Fit Item");
         }
 
         private void WorstFit(Process p)
         {
-
+            lbWorstFit.Items.Add("Worst Fit Item");
         }
 
 
