@@ -15,8 +15,11 @@ namespace OS_Project_2
         Timer t = new Timer();
         Process[] processes = new Process[30];
         Process[] firstFitProcesses = new Process[30];
+        List<Process> firstFitProcesses2 = new List<Process>();
         Process[] bestFitProcesses = new Process[30];
         Process[] worstFitProcesses = new Process[30];
+        int[] blockes = { 10, 5, 2, 4, 8 };
+        int blockIndex = 0;
         int time = 0;
         Random rnd = new Random();
         public Form1()
@@ -52,10 +55,15 @@ namespace OS_Project_2
             label10.Text = next.size.ToString();
 
             p.setStartTime(time);
+            if(blockIndex == 5)
+            {
+                blockIndex = 0;
+            }
             //Allocate a process
             FirstFit(p);
             BestFit(p);
             WorstFit(p);
+            blockIndex++;
             time++;
             label12.Text = time.ToString();
 
@@ -63,10 +71,32 @@ namespace OS_Project_2
 
 
         private void FirstFit(Process p)
-        {
-            lbFirstFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
-            firstFitProcesses[0] = p;
-            
+        {    
+            bool found = false;
+            for (int j = 0; j < blockes.Length; j++)
+                {
+                    int block = blockes[j];
+
+                    if (p.size <= block)
+                    {
+                        blockes[j] = block - p.size;
+                        lbFirstFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
+                        firstFitProcesses2.Add(p);
+                        found = true;
+                        break;
+                    }
+                }
+            if (!found)
+                Console.WriteLine("waiting");
+
+            foreach (Process process in firstFitProcesses2)
+            {
+                if (time - process.startTime >= process.size)
+                {
+                    lbFirstFit.Items.Remove("Process: " + process.name + "  Size: " + process.size);
+                    blockes[blockIndex] += process.size;
+                }
+            }
         }
 
         private void BestFit(Process p)
