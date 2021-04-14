@@ -14,10 +14,12 @@ namespace OS_Project_2
     {
         Timer t = new Timer();
         Process[] processes = new Process[30];
-        Process[] firstFitProcesses = new Process[30];
-        List<Process> firstFitProcesses2 = new List<Process>();
-        Process[] bestFitProcesses = new Process[30];
-        Process[] worstFitProcesses = new Process[30];
+        List<Process> firstFitProcesses = new List<Process>();
+        List<Process> bestFitProcesses = new List<Process>();
+        List<Process> worstFitProcesses = new List<Process>();
+        List<Process> firstFitProcessesWaiting = new List<Process>();
+        List<Process> bestFitProcessesWaiting = new List<Process>();
+        List<Process> worstFitProcessesWaiting = new List<Process>();
         int[] blockes = { 10, 5, 2, 4, 8 };
         int blockIndex = 0;
         int time = 0;
@@ -71,7 +73,8 @@ namespace OS_Project_2
 
 
         private void FirstFit(Process p)
-        {    
+        {   
+
             bool found = false;
             for (int j = 0; j < blockes.Length; j++)
                 {
@@ -81,19 +84,23 @@ namespace OS_Project_2
                     {
                         blockes[j] = block - p.size;
                         lbFirstFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
-                        firstFitProcesses2.Add(p);
+                        firstFitProcesses.Add(p);
                         found = true;
                         break;
                     }
                 }
             if (!found)
+            {
                 Console.WriteLine("waiting");
+                //firstFitProcessesWaiting.Add(p);
+            }
 
-            foreach (Process process in firstFitProcesses2)
+            foreach (Process process in firstFitProcesses.ToList())
             {
                 if (time - process.startTime >= process.size)
                 {
                     lbFirstFit.Items.Remove("Process: " + process.name + "  Size: " + process.size);
+                    firstFitProcesses.Remove(process);
                     blockes[blockIndex] += process.size;
                 }
             }
