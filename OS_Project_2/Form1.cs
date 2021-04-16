@@ -77,18 +77,18 @@ namespace OS_Project_2
 
             bool found = false;
             for (int j = 0; j < blockes.Length; j++)
-                {
-                    int block = blockes[j];
+            {
+                int block = blockes[j];
 
-                    if (p.size <= block)
-                    {
-                        blockes[j] = block - p.size;
-                        lbFirstFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
-                        firstFitProcesses.Add(p);
-                        found = true;
-                        break;
-                    }
+                if (p.size <= block)
+                {
+                    blockes[j] = block - p.size;
+                    lbFirstFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
+                    firstFitProcesses.Add(p);
+                    found = true;
+                    break;
                 }
+            }
             if (!found)
             {
                 Console.WriteLine("waiting");
@@ -108,20 +108,72 @@ namespace OS_Project_2
 
         private void BestFit(Process p)
         {
-            lbBestFit.Items.Add("Process: " + p.name + "  Size: " + p.size);
-            bestFitProcesses.Append(p);
+            bool found = false;
+            Array.Sort(blockes);
 
+            for (int j = 0; j < blockes.Length; j++) 
+            {
+                int block = blockes[j];
+
+                if(p.size <= block) 
+                {
+                    blockes[j] = block - p.size;
+                    lbBestFit.Items.Add("Process: " + p.name + " Size: " + p.size);
+                    bestFitProcesses.Add(p);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                Console.WriteLine("waiting");
+            }
+
+            foreach (Process process in bestFitProcesses.ToList())
+            {
+                if (time - process.startTime >= process.size)
+                {
+                    lbBestFit.Items.Remove("Process: " + process.name + "  Size: " + process.size);
+                    bestFitProcesses.Remove(process);
+                    blockes[blockIndex] += process.size;
+                }
+            }
         }
 
         private void WorstFit(Process p)
         {
-            lbWorstFit.Items.Add("Process: "+p.name + "  Size: " +p.size);
-            worstFitProcesses.Append(p);
+            bool found = false;
+            Array.Sort(blockes);
+            Array.Reverse(blockes);
 
+            for (int j = 0; j < blockes.Length; j++)
+            {
+                int block = blockes[j];
+
+                if (p.size <= block)
+                {
+                    blockes[j] = block - p.size;
+                    lbWorstFit.Items.Add("Process: " + p.name + " Size: " + p.size);
+                    worstFitProcesses.Add(p);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                Console.WriteLine("waiting");
+            }
+
+            foreach (Process process in bestFitProcesses.ToList())
+            {
+                if (time - process.startTime >= process.size)
+                {
+                    lbWorstFit.Items.Remove("Process: " + process.name + "  Size: " + process.size);
+                    worstFitProcesses.Remove(process);
+                    blockes[blockIndex] += process.size;
+                }
+            }
         }
-
-
-
 
     }
 
