@@ -8,6 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+/************************************************************************
+ * Course Project 2 for CIS 452 20
+ * Authors: Dylan Vannatter & Adam Chlebek
+ * Date: April 2021
+ * This application generates processes and allocates them in memory using 3 methods:
+ * First Fit
+ * Best Fit
+ * Worst Fit
+ * This is displayed using Windows Forms and was written in C#
+ * During runtime you can see the processes generated and allocated and deallocated as their
+    runtime is completed. 
+**************************************************************************/
+
 namespace OS_Project_2
 {
     public partial class Form1 : Form
@@ -17,17 +31,15 @@ namespace OS_Project_2
         List<Process> firstFitProcesses = new List<Process>();
         List<Process> bestFitProcesses = new List<Process>();
         List<Process> worstFitProcesses = new List<Process>();
-        List<Process> firstFitProcessesWaiting = new List<Process>();
-        List<Process> bestFitProcessesWaiting = new List<Process>();
-        List<Process> worstFitProcessesWaiting = new List<Process>();
         int[] blockes = { 10, 5, 2, 4, 8 };
         int blockIndex = 0;
         int time = 0;
         Random rnd = new Random();
+        //Initalizing form
         public Form1()
         {
             InitializeComponent();
-
+            //Process creation
             for (int i = 0; i <= 25; i++)
             {
                 int processSize = rnd.Next(1, 11);
@@ -44,11 +56,11 @@ namespace OS_Project_2
             t.Start();  //this will use t_Tick() method
 
         }
-
+        //Ran on every timer tick
         private void t_Tick(object sender, EventArgs e)
         {
 
-            //Generate a process 
+            //load a process 
             Process p = processes[time];
             Process next = processes[time + 1];
 
@@ -71,7 +83,7 @@ namespace OS_Project_2
 
         }
 
-
+        //First fit process allocation
         private void FirstFit(Process p)
         {   
 
@@ -92,7 +104,6 @@ namespace OS_Project_2
             if (!found)
             {
                 Console.WriteLine("waiting");
-                //firstFitProcessesWaiting.Add(p);
             }
 
             foreach (Process process in firstFitProcesses.ToList())
@@ -105,7 +116,7 @@ namespace OS_Project_2
                 }
             }
         }
-
+        //Best fit process allocation
         private void BestFit(Process p)
         {
             bool found = false;
@@ -139,7 +150,7 @@ namespace OS_Project_2
                 }
             }
         }
-
+        //Worst fit allocation
         private void WorstFit(Process p)
         {
             bool found = false;
@@ -176,7 +187,7 @@ namespace OS_Project_2
         }
 
     }
-
+    //Process class
     public class Process
     {
         public readonly int size;
