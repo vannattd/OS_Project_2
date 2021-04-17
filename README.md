@@ -5,6 +5,10 @@
  * First Fit
  * Best Fit
  * Worst Fit
+  
+  
   This is displayed using Windows Forms and was written in C#
+  
+  
   During runtime you can see the processes generated and allocated and deallocated as their
     runtime is completed. 
